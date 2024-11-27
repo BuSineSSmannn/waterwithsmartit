@@ -51,7 +51,6 @@ class AuthController extends ApiController
 
     public function me()
     {
-        return 123;
-        dd(auth()->user());
+        return auth('api')->user();
     }
 }
