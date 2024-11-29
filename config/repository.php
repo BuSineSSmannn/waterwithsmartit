@@ -244,9 +244,5 @@ return [
         ]
     ],
 
-    'migrations' => [
-        'enabled' => false  // Set this to false to disable migration generation
-    ]
-
 
 ];
