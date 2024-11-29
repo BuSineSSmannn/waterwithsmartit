@@ -36,11 +36,13 @@ class AuthController extends ApiController
 
         $expiresAt = null;
 
+
         if ($expiration = config('sanctum.expiration')) {
-            $expiresAt = Carbon::now()->addMinutes($expiration)->toDateTimeString();
+            $expiresAt = Carbon::now()->addMinutes(( $expiration))->toDateTimeString();
         }
 
         return $this->jsonResponse([
+            'ok' => true,
             'user' => $user->only(['id','name','username']),
             'access_token' => $token,
             'token_type' => 'Bearer',
@@ -51,6 +53,15 @@ class AuthController extends ApiController
 
     public function me()
     {
-        return auth('api')->user();
+        return ['ok' => true] + auth('api')->user()->only(['id','name','username']);
+    }
+
+    public function logout()
+    {
+        $user = auth('api')->user();
+
+        $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
+
+        return ['message' => 'Successfully logged out'];
     }
 }

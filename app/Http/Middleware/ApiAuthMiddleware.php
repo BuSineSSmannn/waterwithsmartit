@@ -50,7 +50,7 @@ class ApiAuthMiddleware
         }
 
         return Carbon::parse($token->created_at)
-            ->addMinutes($expiration)
+            ->addMinutes( $expiration)
             ->isPast();
     }
 }

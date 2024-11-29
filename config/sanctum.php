@@ -46,7 +46,7 @@ return [
     |
     */
 
-    'expiration' => env('SANCTUM_EXPIRATION', 24*60),
+    'expiration' => (int) env('SANCTUM_EXPIRATION', 24*60),
 
     /*
     |--------------------------------------------------------------------------

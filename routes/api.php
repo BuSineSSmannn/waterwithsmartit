@@ -11,10 +11,10 @@ Route::get('/user', static function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::group(['prefix' => 'auth'],static function (){
+Route::group(['prefix' => 'auth','as' => 'auth.'],static function (){
    Route::post('/login', [AuthController::class,'login']);
-   Route::post('/logout', [AuthController::class,'login']);
-   Route::post('/me', [AuthController::class,'me'])->middleware(ApiAuthMiddleware::class);
+   Route::get('/me', [AuthController::class,'me'])->middleware(ApiAuthMiddleware::class);
+   Route::post('/logout', [AuthController::class,'logout'])->middleware(ApiAuthMiddleware::class);
 });
 
 
