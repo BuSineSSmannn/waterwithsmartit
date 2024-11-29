@@ -11,9 +11,16 @@ class ApiController extends Controller
         return response()->json($data, $status);
     }
 
+    protected function successResponse(array $data, int $code = 200): JsonResponse
+    {
+        $thedata = ['ok' => true] + $data;
+
+       return $this->jsonResponse($thedata,$code);
+    }
+
     protected function errorResponse($message, $status, $errors = []): JsonResponse
     {
-        $response = ['error' => $message];
+        $response = ['error' => $message ,'ok' => false];
         if (!empty($errors)) {
             $response = array_merge($response, $errors);
         }

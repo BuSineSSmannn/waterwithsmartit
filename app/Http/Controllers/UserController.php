@@ -2,13 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class UserController extends ApiController
 {
-    public function index()
-    {
+    protected UserService $service ;
 
+    public function __construct(UserService $userService)
+    {
+        $this->service = $userService;
+    }
+
+    public function index(): JsonResponse
+    {
+        return $this->successResponse($this->service->all());
+    }
+
+
+    public function show(User $user): JsonResponse
+    {
+        return $this->successResponse($this->service->show($user));
     }
 }
