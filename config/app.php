@@ -123,4 +123,6 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'bot_token' => env('BOT_TOKEN'),
+
 ];

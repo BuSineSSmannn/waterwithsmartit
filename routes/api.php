@@ -25,6 +25,10 @@ Route::group(['middleware' => [ApiAuthMiddleware::class]],static function () {
     Route::group(['prefix' => 'users', 'as' => 'users.'],static function () {
         Route::get('/', [UserController::class,'index'])->name('index');
         Route::get('/{user}', [UserController::class,'show'])->name('show');
+        Route::post('/',[UserController::class,'store'])->name('store');
+        Route::match(['put','patch'],'/{user}',[UserController::class,'update'])->name('update');
+        Route::delete('/{user}',[UserController::class,'destroy'])->name('destroy');
+
     });
 
 });

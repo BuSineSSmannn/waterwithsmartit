@@ -10,6 +10,7 @@ use Illuminate\Database\DatabaseManager;
 use Illuminate\Log\Logger;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Item;
+use Prettus\Validator\Exceptions\ValidatorException;
 
 class UserService extends BaseService
 {
@@ -32,5 +33,30 @@ class UserService extends BaseService
         $resource = new Item($user, new UserTransformer());
 
         return $this->formatData($fractal->createData($resource)->toArray(),'user');
+    }
+
+
+    /**
+     * @throws ValidatorException
+     */
+    public function create($data)
+    {
+
+        $user =  $this->repository->skipPresenter()->create($data);
+
+       return $this->show($user);
+    }
+
+
+    public function update(User $user,$data)
+    {
+        $user->update($data);
+
+        return $this->show($user);
+    }
+
+    public function delete(User $user)
+    {
+        return $user->delete();
     }
 }
