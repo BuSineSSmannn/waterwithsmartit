@@ -58,4 +58,14 @@ class UserController extends ApiController
             "message" => "User deleted"
         ]);
     }
+
+
+    public function forceDelete(User $user)
+    {
+        $this->service->forceDelete($user);
+
+        return $this->successResponse([
+            "message" => "User has soft deleted"
+        ]);
+    }
 }

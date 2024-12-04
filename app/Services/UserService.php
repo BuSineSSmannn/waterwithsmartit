@@ -59,4 +59,9 @@ class UserService extends BaseService
     {
         return $user->delete();
     }
+
+    public function forceDelete(User $user)
+    {
+        return $user->forceDelete();
+    }
 }

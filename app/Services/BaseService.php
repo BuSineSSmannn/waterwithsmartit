@@ -95,6 +95,7 @@ abstract class BaseService
      */
     protected function formatData(array $data, string $key = 'data'): array
     {
+
         if (isset($data['data'])) {
             $data[$key] = $data['data'];
             unset($data['data']);
