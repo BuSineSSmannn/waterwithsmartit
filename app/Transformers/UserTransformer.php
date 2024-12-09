@@ -12,10 +12,11 @@ use App\Models\User;
  */
 class UserTransformer extends TransformerAbstract
 {
+
     /**
      * Transform the User entity.
      *
-     * @param \App\Models\User $model
+     * @param User $model
      *
      * @return array
      */
@@ -25,6 +26,15 @@ class UserTransformer extends TransformerAbstract
             'id'         => (int) $model->id,
             'username'  => $model->username,
             'name'  => $model->name,
+            'roles' => $this->generateRoles($model->roles)
         ];
+    }
+
+
+    public function generateRoles($items)
+    {
+        return $items->map(function ($item) {
+            return (new RoleTransformer())->transform($item);
+        })->toArray();
     }
 }

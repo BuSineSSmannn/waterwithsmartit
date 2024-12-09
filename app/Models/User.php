@@ -62,8 +62,18 @@ class User extends Authenticatable
         return $this->roles->contains('slug', $role);
     }
 
-    public function hasPermission($permission)
+    public function hasPermission(string $permission)
     {
-        return $this->roles->flatMap->permissions->contains('slug', $permission);
+        return $this->getAllPermissions()->contains('slug', $permission);
+    }
+
+    public function getAllPermissions()
+    {
+        return $this->roles->flatMap->permissions;
+    }
+
+    public function getALlPermissionName()
+    {
+        return $this->getAllPermissions()->pluck('name')->toArray();
     }
 }

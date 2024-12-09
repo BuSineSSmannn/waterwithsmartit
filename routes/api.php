@@ -3,10 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
-use App\Http\Middleware\ApiAuthMiddleware;
-use App\Models\Role;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/user', static function (Request $request) {
@@ -17,7 +14,7 @@ Route::get('/user', static function (Request $request) {
 Route::post('/auth/login', [AuthController::class,'login'])->name('auth.login');
 
 
-Route::group(['middleware' => [ApiAuthMiddleware::class]],static function () {
+Route::group(['middleware' => ['checkAuth']],static function () {
 
     Route::group(['prefix' => 'auth','as' => 'auth.'],static function (){
         Route::get('/me', [AuthController::class,'me']);
@@ -44,14 +41,5 @@ Route::group(['middleware' => [ApiAuthMiddleware::class]],static function () {
 });
 
 
-Route::post('/test',function (){
-   $role = Role::find(1);
-
-   dd($role->permissions->toArray());
-});
 
 
-
-//Route::group([],static function (){
-//    Route::get('/', [UserController::class,'index']);
-//});

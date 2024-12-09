@@ -27,12 +27,16 @@ class UserRequest extends FormRequest
             'users.store' => [
                 'name' => ['required', 'string', 'max:150'],
                 'username' => ['required', 'string', 'min:4', 'max:32', 'unique:users'],
-                'password' => ['required', 'string', 'min:4', 'max:16']
+                'password' => ['required', 'string', 'min:4', 'max:16'],
+                'roles' => ['required', 'array', 'min:1'],
+                'roles.*' => ['exists:roles,id']
             ],
             'users.update' => [
                 'name' => ['required', 'string', 'max:150'],
                 'username' => ['required', 'string', 'min:4', 'max:32', 'unique:users,username,' . $user->id],
-                'password' => ['sometimes', 'string', 'min:4', 'max:16']
+                'password' => ['sometimes', 'string', 'min:4', 'max:16'],
+                'roles' => ['required', 'array', 'min:1'],
+                'roles.*' => ['exists:roles,id']
             ],
             default => []
         };
@@ -60,6 +64,9 @@ class UserRequest extends FormRequest
             'password.string' => 'Parol faqat matn bo\'lishi kerak.',
             'password.min' => 'Parol minimal :min belgidan iborat bo\'lishi kerak.',
             'password.max' => 'Parol maksimal :max belgidan iborat bo\'lishi mumkin.',
+
+            'roles.required' => 'Rollarni kiritish majburiy.',
+
         ];
     }
 }

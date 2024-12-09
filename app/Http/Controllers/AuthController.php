@@ -47,7 +47,6 @@ class AuthController extends ApiController
             'access_token' => $token,
             'token_type' => 'Bearer',
             'expires_at' => $expiresAt
-
         ]);
     }
 
