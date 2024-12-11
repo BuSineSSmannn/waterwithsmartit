@@ -10,11 +10,8 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class RoleController extends ApiController
 {
-    protected RoleService $service ;
-
-    public function __construct(RoleService $roleService)
+    public function __construct(readonly protected RoleService $service)
     {
-        $this->service = $roleService;
     }
 
     /**

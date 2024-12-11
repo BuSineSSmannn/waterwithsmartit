@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class ApiController extends Controller
 {
-    protected function jsonResponse(mixed $data, int $status = 200): JsonResponse
+    protected function jsonResponse(mixed $data, int $status = Response::HTTP_OK): JsonResponse
     {
         return response()->json($data, $status);
     }
 
-    protected function successResponse(array $data, int $code = 200): JsonResponse
+    protected function successResponse(array $data, int $code = Response::HTTP_OK): JsonResponse
     {
         $thedata = ['ok' => true] + $data;
 
