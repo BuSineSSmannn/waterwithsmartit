@@ -61,10 +61,10 @@ class SupplierController extends ApiController
 
     public function toggleStatus(Supplier $supplier): JsonResponse
     {
-       $supplier->status = $supplier->status === StatusEnum::ACTIVE ? StatusEnum::INACTIVE : StatusEnum::ACTIVE;
-       $supplier->save();
+        $supplier->status = $supplier->status === StatusEnum::ACTIVE ? StatusEnum::INACTIVE : StatusEnum::ACTIVE;
+        $supplier->save();
 
-       return $this->successResponse($this->service->show($supplier));
+        return $this->successResponse($this->service->show($supplier));
     }
 
 }
