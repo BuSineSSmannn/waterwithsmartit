@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StatusEnum;
 use App\Http\Requests\SupplierRequest;
 use App\Models\Supplier;
 use App\Services\SupplierService;
@@ -36,6 +37,9 @@ class SupplierController extends ApiController
         return $this->errorResponse('Invalid data', Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     * @throws ValidatorException
+     */
     public function update(SupplierRequest $request, Supplier $supplier): JsonResponse
     {
         if($request->validated()){
@@ -53,7 +57,14 @@ class SupplierController extends ApiController
 
         return $this->errorResponse('No deleting',500);
 
+    }
 
+    public function toggleStatus(Supplier $supplier): JsonResponse
+    {
+       $supplier->status = $supplier->status === StatusEnum::ACTIVE ? StatusEnum::INACTIVE : StatusEnum::ACTIVE;
+       $supplier->save();
+
+       return $this->successResponse($this->service->show($supplier));
     }
 
 }

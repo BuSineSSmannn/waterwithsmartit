@@ -3,14 +3,11 @@
 namespace App\Services;
 
 
-use App\Models\Role;
 use App\Models\Supplier;
 use App\Repositories\Supplier\SupplierRepository;
 use App\Transformers\SupplierTransformer;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Log\Logger;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Item;
 use Prettus\Validator\Exceptions\ValidatorException;

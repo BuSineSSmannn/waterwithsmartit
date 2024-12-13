@@ -44,6 +44,7 @@ Route::group(['middleware' => ['checkAuth']],static function () {
         Route::post('/','store')->name('store');
         Route::match(['put','patch'],'/{supplier}','update')->name('update');
         Route::delete('/{supplier}','destroy')->name('destroy');
+        Route::put('/{supplier}/toggleStatus','toggleStatus')->name('toggleStatus');
     });
 
 
