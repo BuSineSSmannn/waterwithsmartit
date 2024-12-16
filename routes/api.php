@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ColorController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SizeController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -58,6 +60,23 @@ Route::group(['middleware' => ['checkAuth']],static function () {
         Route::delete('/{category}','destroy')->name('destroy');
     });
 
+
+    Route::group(['prefix' => 'sizes', 'as' => 'sizes.','controller' => SizeController::class],static function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{size}', 'show')->name('show');
+        Route::post('/','store')->name('store');
+        Route::match(['put','patch'],'/{size}','update')->name('update');
+        Route::delete('/{size}','destroy')->name('destroy');
+    });
+
+
+    Route::group(['prefix' => 'colors', 'as' => 'colors.','controller' => ColorController::class],static function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{color}', 'show')->name('show');
+        Route::post('/','store')->name('store');
+        Route::match(['put','patch'],'/{color}','update')->name('update');
+        Route::delete('/{color}','destroy')->name('destroy');
+    });
 
 
 });

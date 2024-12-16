@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('role_user', static function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('restrict');
-            $table->foreignId('role_id')->constrained()->onDelete('restrict');
+            $table->foreignId('user_id')->constrained('users')->onDelete('restrict');
+            $table->foreignId('role_id')->constrained('roles')->onDelete('restrict');
         });
     }
 
