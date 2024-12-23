@@ -39,6 +39,18 @@ class SizeController extends ApiController
         return $this->errorResponse('Validation Failed', Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     * @throws ValidatorException
+     */
+    public function update(SizeRequest $request, Size $size): JsonResponse
+    {
+        if($request->validated()){
+            return $this->successResponse($this->service->update($size,$request->validated()));
+        }
+
+        return $this->errorResponse('Validation Failed', Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
 
     public function destroy(Size $size): JsonResponse
     {

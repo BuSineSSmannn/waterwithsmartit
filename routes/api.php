@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\SupplierController;
@@ -76,6 +77,16 @@ Route::group(['middleware' => ['checkAuth']],static function () {
         Route::post('/','store')->name('store');
         Route::match(['put','patch'],'/{color}','update')->name('update');
         Route::delete('/{color}','destroy')->name('destroy');
+    });
+
+
+    Route::group([
+        'prefix' => 'products',
+        'as' => 'products.',
+        'controller' => ProductController::class
+    ],static function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{product}', 'show')->name('show');
     });
 
 

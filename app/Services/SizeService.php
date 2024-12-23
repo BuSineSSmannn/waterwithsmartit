@@ -27,10 +27,10 @@ class SizeService extends BaseService
     }
 
 
-    public function show(Size $color): array
+    public function show(Size $size): array
     {
         $fractal = new Manager();
-        $resource = new Item($color, new SizeTransformer());
+        $resource = new Item($size, new SizeTransformer());
 
         return $this->formatData($fractal->createData($resource)->toArray(),'size');
     }
@@ -42,26 +42,26 @@ class SizeService extends BaseService
     public function create($data): array
     {
 
-        $color =  $this->repository->skipPresenter()->create($data);
+        $size =  $this->repository->skipPresenter()->create($data);
 
-        $color->refresh();
-        return $this->show($color);
+        $size->refresh();
+        return $this->show($size);
     }
 
 
     /**
      * @throws ValidatorException
      */
-    public function update(Size $color, $data): array
+    public function update(Size $size, $data): array
     {
-        $updated_data = $this->repository->skipPresenter()->update($data,$color->id);
+        $updated_data = $this->repository->skipPresenter()->update($data,$size->id);
 
         return $this->show($updated_data);
     }
 
-    public function delete(Size $color): ?bool
+    public function delete(Size $size): ?bool
     {
-        return $color->delete();
+        return $size->delete();
     }
 
 

@@ -23,10 +23,18 @@ class SizeRequest extends FormRequest
     {
 
        return match ($this->route()?->getName()){
-            'sizes.store' => [
+            'sizes.store'=> [
                 'name' => 'required|string|max:150|unique:sizes',
                 'category_id' => 'required|exists:categories,id,deleted_at,NULL',
             ],
+
+           'sizes.update'=> [
+                'name' => 'required|string|max:150|unique:sizes,name,' . $this->route('size')->id,
+                'category_id' => 'required|exists:categories,id,deleted_at,NULL',
+            ],
+
+
+
            default => []
         };
     }
