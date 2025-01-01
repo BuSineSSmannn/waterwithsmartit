@@ -10,6 +10,8 @@ use Illuminate\Log\Logger;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Item;
 use Prettus\Validator\Exceptions\ValidatorException;
+use RuntimeException;
+use Whoops\Run;
 
 class ProductService extends BaseService
 {
@@ -61,6 +63,36 @@ class ProductService extends BaseService
     public function delete(Product $product): ?bool
     {
         return $product->delete();
+    }
+
+    public function connectBarcodeToMxik($mxik, $barcode): array
+    {
+
+        $product = Product::where('mxik_code', $mxik)->where('barcode',$barcode)->first();
+
+
+        if($product){
+            throw new RuntimeException('Product already connected');
+        }
+
+        $product = Product::where('mxik_code', $mxik)->first();
+
+
+
+        if($product->barcode){
+            $new_product = $product->replicate();
+            $new_product->barcode = $barcode;
+            $new_product->status = 'active';
+            $new_product->is_imported = '0';
+            $new_product->price = 0.00;
+            $new_product->save();
+            return $this->show($new_product);
+        }
+
+        $product->barcode = $barcode;
+        $product->save();
+        return $this->show($product);
+
     }
 
 

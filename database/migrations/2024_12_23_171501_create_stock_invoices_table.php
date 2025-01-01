@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal('total_amount',15)->default(0.00);
             $table->string('comment')->nullable();
             $table->enum('status',['draft', 'confirmed','rejected'])->default('draft');
+            $table->enum('trx_type',['black', 'white']);
             $table->string('code', 50)->unique();
             $table->timestamps();
             $table->softDeletes();

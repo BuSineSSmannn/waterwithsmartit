@@ -13,13 +13,18 @@ return new class extends Migration
     {
         Schema::create('stock', static function (Blueprint $table) {
             $table->bigIncrements('id');                   // Уникальный ID записи
+            $table->foreignId('user_id')->constrained('users')->onDelete('restrict');
             $table->foreignId('product_id')->constrained('products')->onDelete('restrict');      // ID варианта товара
-            $table->unsignedInteger('quantity');           // Количество товара на складе
+            $table->unsignedInteger('white_quantity');           // Количество товара на складе
+            $table->unsignedInteger('black_quantity');           // Количество товара на складе
             $table->dateTime('expiration_date');           // Дата окончания годности товара
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique(['product_id','expiration_date'], 'product_id_expiration_date');
+            $table->unique(['product_id','expiration_date'], 'stock_unique');
+
+            $table->index(['product_id', 'white_quantity']);
+            $table->index(['product_id', 'black_quantity']);
         });
     }
 

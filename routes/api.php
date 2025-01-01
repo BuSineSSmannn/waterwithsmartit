@@ -6,6 +6,7 @@ use App\Http\Controllers\ColorController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SizeController;
+use App\Http\Controllers\StockInvoiceController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -87,8 +88,22 @@ Route::group(['middleware' => ['checkAuth']],static function () {
     ],static function () {
         Route::get('/', 'index')->name('index');
         Route::get('/{product}', 'show')->name('show');
+        Route::post('/connect_barcode_to_mxik', 'connect_barcode_to_mxik')->name('connect_barcode_to_mxik');
+
     });
 
+
+    Route::group([
+        'prefix' => 'stock_invoices',
+        'as' => 'stock_invoices.',
+        'controller' => StockInvoiceController::class
+    ],static function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{stock_invoice}', 'show')->name('show');
+        Route::post('/','store')->name('store');
+        Route::match(['put','patch'],'/{stock_invoice}','update')->name('update');
+        Route::delete('/{stock_invoice}','destroy')->name('destroy');
+    });
 
 });
 

@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Repositories\Product;
+namespace App\Repositories\StockInvoice;
 
-use App\Models\Product;
-use App\Presenters\ProductPresenter;
+use App\Models\StockInvoice;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
@@ -13,7 +12,7 @@ use Prettus\Repository\Exceptions\RepositoryException;
  *
  * @package namespace App\Repositories;
  */
-class ProductRepository extends BaseRepository implements ProductRepositoryInterface
+class StockInvoiceRepository extends BaseRepository implements StockInvoiceRepositoryInterface
 {
     /**
      * Specify Model class name
@@ -22,7 +21,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      */
     public function model(): string
     {
-        return Product::class;
+        return StockInvoice::class;
     }
 
 
@@ -36,14 +35,8 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     }
 
 
-    public function presenter(): string
-    {
-        return ProductPresenter::class;
-    }
-
     protected $fieldSearchable = [
-        'productBrand.name' => 'like',
-        'mxik_code' => '=',
-        'barcode' => '=',
+        'name' => 'like',
+        'id'
     ];
 }
