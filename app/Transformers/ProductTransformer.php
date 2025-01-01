@@ -25,7 +25,7 @@ class ProductTransformer extends TransformerAbstract
             'packaging' => $product->packaging,
             'price' => $product->price,
             'status' => $product->status,
-            'full_name' => $product->productSupposition->name . ':' .  $product->productBrand->name,
+            'full_name' => $product->productSupposition->name . ':' .  $product->productBrand->name . ', ' . $product->measuring_group,
             'is_imported' => (bool) $product->is_imported,
             'created_at' => $product->created_at?->toISOString(),
             'updated_at' => $product->updated_at?->toISOString(),

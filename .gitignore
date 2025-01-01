@@ -26,4 +26,4 @@ access.log
 error.log
 .venv
 *.py
-.xlsx
+/python
