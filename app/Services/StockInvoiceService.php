@@ -4,9 +4,11 @@ namespace App\Services;
 
 
 use App\Models\StockInvoice;
+use App\Models\StockInvoiceItem;
 use App\Presenters\StockInvoicePresenter;
 use App\Repositories\StockInvoice\StockInvoiceRepository;
 use App\Transformers\StockInvoiceTransformer;
+use Carbon\Carbon;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Log\Logger;
 use League\Fractal\Manager;
@@ -50,27 +52,52 @@ class StockInvoiceService extends BaseService
             'status' => 'draft'
         ]);
 
-        dd($invoice)  ;
+        $invoice = $this->updateItems($invoice, $data);
 
-        $color->refresh();
-        return $this->show($color);
+        return $this->show($invoice);
     }
 
 
     /**
-     * @throws ValidatorException
      */
-    public function update(Color $color, $data): array
+    public function update(StockInvoice $invoice, $data): array
     {
-        $updated_data = $this->repository->update($data,$color->id);
+
+        $invoice->update([
+            'supplier_id' => $data['supplier_id'],
+            'trx_type' => $data['trx_type'],
+        ]);
+
+        $invoice->stockInvoiceItems()->delete();
+
+        $updated_data = $this->updateItems($invoice, $data);
+
 
         return $this->show($updated_data);
     }
 
-    public function delete(Color $color): ?bool
-    {
-        return $color->delete();
-    }
+   protected function updateItems(StockInvoice $invoice, $data): StockInvoice
+   {
+       $sum = 0;
+
+       foreach ( $data['items']  as  $item) {
+           $sum += $item['price'] * $item['quantity'];
+           StockInvoiceItem::create([
+               'stock_invoice_id' => $invoice->id,
+               'product_id' => $item['product_id'],
+               'quantity' => $item['quantity'],
+               'price' => $item['price'],
+               'sale_price' => $item['sale_price'],
+               'date_expire' => Carbon::create($item['date_expire'])?->format('Y-m-d'),
+           ]);
+       }
+
+       $invoice->update([
+           'total_amount' => $sum
+       ]);
+
+       return $invoice;
+   }
 
 
 

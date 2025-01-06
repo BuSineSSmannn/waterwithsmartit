@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('stock', static function (Blueprint $table) {
             $table->bigIncrements('id');                   // Уникальный ID записи
-            $table->foreignId('user_id')->constrained('users')->onDelete('restrict');
             $table->foreignId('product_id')->constrained('products')->onDelete('restrict');      // ID варианта товара
-            $table->unsignedInteger('white_quantity');           // Количество товара на складе
-            $table->unsignedInteger('black_quantity');           // Количество товара на складе
+            $table->enum('trx_type',['black','white']);
+            $table->unsignedInteger('quantity');           // Количество товара на складе
             $table->dateTime('expiration_date');           // Дата окончания годности товара
             $table->timestamps();
             $table->softDeletes();

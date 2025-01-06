@@ -102,7 +102,6 @@ Route::group(['middleware' => ['checkAuth']],static function () {
         Route::get('/{stock_invoice}', 'show')->name('show');
         Route::post('/','store')->name('store');
         Route::match(['put','patch'],'/{stock_invoice}','update')->name('update');
-        Route::delete('/{stock_invoice}','destroy')->name('destroy');
     });
 
 });

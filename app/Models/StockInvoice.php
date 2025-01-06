@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\InvoiceEnum;
+use App\Enums\TrxType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,6 +15,12 @@ class StockInvoice extends Model
 
     use SoftDeletes;
 
+    protected $casts = [
+        'status' => InvoiceEnum::class,
+        'trx_type' => TrxType::class,
+        'total_amount' => 'float'
+    ];
+
     protected $table = 'stock_invoices';
 
     protected $fillable = [
@@ -21,7 +29,7 @@ class StockInvoice extends Model
         'total_amount',
         'comment',
         'status',
-        'transaction_type',
+        'trx_type',
         'code'
     ];
 

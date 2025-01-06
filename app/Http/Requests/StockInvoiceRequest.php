@@ -22,7 +22,8 @@ class StockInvoiceRequest extends FormRequest
     public function rules(): array
     {
         return  match ($this->route()?->getName()){
-            'stock_invoices.store' => [
+            'stock_invoices.store',
+            'stock_invoices.update' => [
                 'supplier_id' => 'required|exists:suppliers,id,deleted_at,NULL',
                 'trx_type' => 'required|in:white,black',
                 'items' => 'required|array|min:1',
@@ -31,7 +32,6 @@ class StockInvoiceRequest extends FormRequest
                 'items.*.price' => 'required|numeric|min:1',
                 'items.*.sale_price' => 'required|numeric|min:1',
                 'items.*.date_expire' => 'required|date|date_format:d.m.Y',
-
             ]
         };
     }
