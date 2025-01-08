@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Transformers;
+namespace App\Transformers\StockInvoice;
 
 use App\Models\StockInvoice;
+use App\Transformers\ProductTransformer;
 use League\Fractal\TransformerAbstract;
 
-class StockInvoiceTransformer extends TransformerAbstract
+class StockInvoiceAllTransformer extends TransformerAbstract
 {
     public function transform(StockInvoice $stockInvoice): array
     {
@@ -22,6 +23,7 @@ class StockInvoiceTransformer extends TransformerAbstract
                 'name' => $stockInvoice->status,
                 'translate' => $stockInvoice->status->translate()
             ],
+
             'created_at' => $stockInvoice->created_at?->toISOString(),
             'updated_at' => $stockInvoice->updated_at?->toISOString(),
             'deleted_at' => $stockInvoice->deleted_at?->toISOString(),

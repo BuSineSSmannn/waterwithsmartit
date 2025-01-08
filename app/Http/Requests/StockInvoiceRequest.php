@@ -30,7 +30,7 @@ class StockInvoiceRequest extends FormRequest
                 'items.*.product_id' => 'required|exists:products,id,deleted_at,NULL',
                 'items.*.quantity' => 'required|numeric|min:1',
                 'items.*.price' => 'required|numeric|min:1',
-                'items.*.sale_price' => 'required|numeric|min:1',
+                'items.*.arrival_price' => 'required|numeric|min:1',
                 'items.*.date_expire' => 'required|date|date_format:d.m.Y',
             ]
         };

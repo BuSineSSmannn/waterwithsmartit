@@ -11,6 +11,9 @@ class Stock extends Model
     protected $fillable = [
         'product_id',
         'quantity',
-        'expiration_date'
+        'date_expire',
+        'price',
+        'arrival_price',
+        'trx_type',
     ];
 }

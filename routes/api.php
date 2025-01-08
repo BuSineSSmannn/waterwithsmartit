@@ -101,6 +101,8 @@ Route::group(['middleware' => ['checkAuth']],static function () {
         Route::get('/', 'index')->name('index');
         Route::get('/{stock_invoice}', 'show')->name('show');
         Route::post('/','store')->name('store');
+        Route::post('/{stock_invoice}/reject','reject')->name('reject');
+        Route::post('/{stock_invoice}/confirm','confirm')->name('confirm');
         Route::match(['put','patch'],'/{stock_invoice}','update')->name('update');
     });
 

@@ -8,10 +8,15 @@ class StockInvoiceItem extends Model
 {
     protected $fillable = [
         'price',
-        'sale_price',
+        'arrival_price',
         'product_id',
         'quantity',
         'stock_invoice_id',
         'date_expire'
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

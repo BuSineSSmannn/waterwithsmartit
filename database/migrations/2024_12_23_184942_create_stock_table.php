@@ -15,15 +15,18 @@ return new class extends Migration
             $table->bigIncrements('id');                   // Уникальный ID записи
             $table->foreignId('product_id')->constrained('products')->onDelete('restrict');      // ID варианта товара
             $table->enum('trx_type',['black','white']);
-            $table->unsignedInteger('quantity');           // Количество товара на складе
-            $table->dateTime('expiration_date');           // Дата окончания годности товара
+            $table->decimal('arrival_price',15)->default(0.00); // Цена при поступлении
+            $table->decimal('price',15)->default(0.00);
+            $table->unsignedInteger('quantity')->default(0);           // Количество товара на складе
+            $table->dateTime('date_expire');           // Дата окончания годности товара
+
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique(['product_id','expiration_date'], 'stock_unique');
+            $table->unique(['product_id','date_expire'], 'stock_unique');
 
-            $table->index(['product_id', 'white_quantity']);
-            $table->index(['product_id', 'black_quantity']);
+            $table->index(['product_id', 'quantity']);
+            $table->index(['product_id', 'date_expire']);
         });
     }
 

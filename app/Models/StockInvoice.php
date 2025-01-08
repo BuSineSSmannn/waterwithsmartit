@@ -55,7 +55,7 @@ class StockInvoice extends Model
         return $code;
     }
 
-    public function stockInvoiceItems(): HasMany
+    public function items(): HasMany
     {
         return $this->hasMany(StockInvoiceItem::class, 'stock_invoice_id', 'id');
     }

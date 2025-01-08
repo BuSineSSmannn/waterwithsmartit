@@ -2,7 +2,7 @@
 
 namespace App\Presenters;
 
-use App\Transformers\StockInvoiceTransformer;
+use App\Transformers\StockInvoice\StockInvoiceAllTransformer;
 use League\Fractal\TransformerAbstract;
 use Prettus\Repository\Presenter\FractalPresenter;
 
@@ -18,8 +18,8 @@ class StockInvoicePresenter extends FractalPresenter
      *
      * @return StockInvoiceTransformer|TransformerAbstract
      */
-    public function getTransformer(): StockInvoiceTransformer|TransformerAbstract
+    public function getTransformer(): StockInvoiceAllTransformer|TransformerAbstract
     {
-        return new StockInvoiceTransformer();
+        return new StockInvoiceAllTransformer();
     }
 }
