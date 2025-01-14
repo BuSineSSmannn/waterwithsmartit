@@ -23,7 +23,7 @@ class SupplierService extends BaseService
 
     public function all(): array
     {
-        return $this->formatData($this->repository->paginate(),'suppliers');
+        return $this->formatData($this->repository->paginate(request()->input('per_page') ?? 30),'suppliers');
     }
 
 
