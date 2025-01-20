@@ -59,7 +59,7 @@ class SupplierService extends BaseService
         return $this->show($updated_data);
     }
 
-    public function delete(Supplier $supplier)
+    public function delete(Supplier $supplier): ?bool
     {
         return $supplier->delete();
     }
