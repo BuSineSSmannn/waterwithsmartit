@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SizeController;
@@ -109,5 +110,6 @@ Route::group(['middleware' => ['checkAuth']],static function () {
 });
 
 
+Route::get('/permissions',[PermissionController::class,'index']);
 
 
