@@ -4,6 +4,7 @@ namespace App\Transformers\StockInvoice;
 
 use App\Models\StockInvoice;
 use App\Transformers\ProductTransformer;
+use Carbon\Carbon;
 use League\Fractal\TransformerAbstract;
 
 class StockInvoiceTransformer extends TransformerAbstract
@@ -30,7 +31,7 @@ class StockInvoiceTransformer extends TransformerAbstract
                     'quantity' => $item->quantity,
                     'price' => $item->price,
                     'arrival_price' => $item->arrival_price,
-                    'date_expire' => $item->date_expire,
+                    'date_expire' => Carbon::parse($item->date_expire)->format('d.m.Y'),
                     'product' => [
 
                         'id' => (int) $item->product->id,
