@@ -18,7 +18,6 @@ use Illuminate\Database\DatabaseManager;
 use Illuminate\Log\Logger;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Item;
-use Prettus\Validator\Exceptions\ValidatorException;
 use RuntimeException;
 use Throwable;
 
@@ -47,7 +46,6 @@ class StockInvoiceService extends BaseService
 
 
     /**
-     * @throws ValidatorException
      */
     public function create($data): array
     {
@@ -87,7 +85,7 @@ class StockInvoiceService extends BaseService
                 'trx_type' => $data['trx_type'],
             ]);
 
-            $invoice->stockInvoiceItems()->delete();
+            $invoice->items()->delete();
 
             $updated_data = $this->updateItems($invoice, $data);
 
@@ -149,7 +147,7 @@ class StockInvoiceService extends BaseService
                     'purchase_price' => $item->arrival_price,
                     'quantity' => $item->quantity,
                     'date_expire' => $item->date_expire,
-                    'description' => "Приходная накладная от поставщика No {$invoice->id} - {$invoice->supplier->name}"
+                    'description' => "Приходная накладная от поставщика No $invoice->id - {$invoice->supplier->name}"
                 ]);
             }
 
@@ -184,13 +182,5 @@ class StockInvoiceService extends BaseService
 
        return $invoice;
    }
-
-
-   protected function checkStatus(StockInvoice $invoice)
-   {
-
-   }
-
-
 
 }
