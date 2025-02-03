@@ -23,7 +23,8 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique(['product_id','date_expire'], 'stock_unique');
+            $table->unique(['product_id', 'date_expire','price','arrival_price','trx_type'], 'stock_unique');
+
 
             $table->index(['product_id', 'quantity']);
             $table->index(['product_id', 'date_expire']);
