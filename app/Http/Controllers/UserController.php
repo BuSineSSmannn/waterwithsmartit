@@ -7,6 +7,7 @@ use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class UserController extends ApiController
@@ -56,17 +57,7 @@ class UserController extends ApiController
 
         return $this->successResponse([
             "message" => "User deleted"
-        ]);
-    }
-
-
-    public function forceDelete(User $user)
-    {
-        $this->service->forceDelete($user);
-
-        return $this->successResponse([
-            "message" => "User has soft deleted"
-        ]);
+        ],Response::HTTP_NO_CONTENT);
     }
 
 

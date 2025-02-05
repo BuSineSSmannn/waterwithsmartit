@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SizeController;
+use App\Http\Controllers\StockController;
 use App\Http\Controllers\StockInvoiceController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
@@ -105,6 +107,26 @@ Route::group(['middleware' => ['checkAuth']],static function () {
         Route::post('/{stock_invoice}/reject','reject')->name('reject');
         Route::post('/{stock_invoice}/confirm','confirm')->name('confirm');
         Route::match(['put','patch'],'/{stock_invoice}','update')->name('update');
+    });
+
+
+    Route::group([
+        'prefix' => 'stock',
+        'as' => 'stock.',
+        'controller' => StockController::class
+    ],static function () {
+        Route::get('/','index');
+        Route::get('/{stock}','show');
+    });
+
+
+
+    Route::group(['prefix' => 'branches', 'as' => 'branches.','controller' => BranchController::class],static function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{branch}', 'show')->name('show');
+        Route::post('/','store')->name('store');
+        Route::match(['put','patch'],'/{branch}','update')->name('update');
+        Route::delete('/{branch}','destroy')->name('destroy');
     });
 
 });

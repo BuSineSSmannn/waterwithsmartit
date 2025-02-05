@@ -54,7 +54,7 @@ class SizeController extends ApiController
 
     public function destroy(Size $size): JsonResponse
     {
-        return $this->successResponse((array)$this->service->delete($size));
+        return $this->successResponse((array)$this->service->delete($size),Response::HTTP_NO_CONTENT);
     }
 
 

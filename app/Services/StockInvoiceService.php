@@ -32,7 +32,7 @@ class StockInvoiceService extends BaseService
 
     public function all(): array
     {
-        return $this->formatData($this->repository->setPresenter(StockInvoicePresenter::class)->paginate(),'stock_invoices');
+        return $this->formatData($this->repository->setPresenter(StockInvoicePresenter::class)->orderBy('id','desc')->paginate(),'stock_invoices');
     }
 
 
@@ -132,7 +132,7 @@ class StockInvoiceService extends BaseService
                     'trx_type' => $invoice->trx_type,
                     'arrival_price' => $item->arrival_price,
                     'price' => $item->price,
-                    'date_expire' => $item->date_expire,
+                    'date_expire' => Carbon::parse($item->date_expire)->endOfDay()->format('Y-m-d H:i:s'),
                 ]);
 
                 $stock->update([

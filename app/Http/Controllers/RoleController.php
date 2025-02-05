@@ -6,6 +6,7 @@ use App\Http\Requests\RoleRequest;
 use App\Models\Role;
 use App\Services\RoleService;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class RoleController extends ApiController
@@ -67,7 +68,7 @@ class RoleController extends ApiController
 
         return $this->successResponse([
             "message" => "Role deleted"
-        ]);
+        ],Response::HTTP_NO_CONTENT);
     }
 
 

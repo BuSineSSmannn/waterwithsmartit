@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ColorRequest;
-use App\Models\Color;
-use App\Services\ColorService;
+use App\Http\Requests\BranchRequest;
+use App\Models\Branch;
+use App\Services\BranchService;
 use Illuminate\Http\JsonResponse;
 use Prettus\Validator\Exceptions\ValidatorException;
 use Symfony\Component\HttpFoundation\Response;
 
-class ColorController extends ApiController
+class BranchController extends ApiController
 {
-    public function __construct(protected ColorService $service)
+    public function __construct(protected BranchService $service)
     {
     }
 
@@ -22,16 +22,16 @@ class ColorController extends ApiController
     }
 
 
-    public function show(Color $color): JsonResponse
+    public function show(Branch $branch): JsonResponse
     {
-        return $this->successResponse($this->service->show($color));
+        return $this->successResponse($this->service->show($branch));
     }
 
 
     /**
      * @throws ValidatorException
      */
-    public function store(ColorRequest $request): JsonResponse
+    public function store(BranchRequest $request): JsonResponse
     {
         if($request->validated()){
             return $this->successResponse($this->service->create($request->validated()), Response::HTTP_CREATED);
@@ -43,11 +43,11 @@ class ColorController extends ApiController
     /**
      * @throws ValidatorException
      */
-    public function update(ColorRequest $request, Color $color)
+    public function update(BranchRequest $request, Branch $branch)
     {
 
         if($request->validated()){
-            return $this->successResponse( $this->service->update($color, $request->validated()));
+            return $this->successResponse( $this->service->update($branch, $request->validated()));
         }
 
 
@@ -55,8 +55,8 @@ class ColorController extends ApiController
     }
 
 
-    public function destroy(Color $color): JsonResponse
+    public function destroy(Branch $branch): JsonResponse
     {
-        return $this->successResponse((array)$this->service->delete($color),Response::HTTP_NO_CONTENT);
+        return $this->successResponse((array)$this->service->delete($branch),Response::HTTP_NO_CONTENT);
     }
 }
