@@ -123,6 +123,7 @@ Route::group(['middleware' => ['checkAuth']],static function () {
 
     Route::group(['prefix' => 'branches', 'as' => 'branches.','controller' => BranchController::class],static function () {
         Route::get('/', 'index')->name('index');
+        Route::get('/all', 'all')->name('all');
         Route::get('/{branch}', 'show')->name('show');
         Route::post('/','store')->name('store');
         Route::match(['put','patch'],'/{branch}','update')->name('update');

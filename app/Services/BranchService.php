@@ -28,6 +28,12 @@ class BranchService extends BaseService
     }
 
 
+    public function getAll(): array
+    {
+        return $this->formatData($this->repository->setPresenter(BranchPresenter::class)->all(),'branches');
+    }
+
+
     public function show(Branch $branch): array
     {
         $fractal = new Manager();

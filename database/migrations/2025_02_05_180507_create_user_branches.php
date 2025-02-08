@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('user_branches', static function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('user_id2')->constrained('users')->onDelete('restrict');
+            $table->foreignId('user_id')->constrained('users')->onDelete('restrict');
             $table->foreignId('branch_id')->constrained('branches')->onDelete('restrict');
 
             $table->unique(['branch_id','user_id']);

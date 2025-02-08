@@ -26,7 +26,8 @@ class UserTransformer extends TransformerAbstract
             'id'         => (int) $model->id,
             'username'  => $model->username,
             'name'  => $model->name,
-            'roles' => $this->generateRoles($model->roles)
+            'roles' => $this->generateRoles($model->roles),
+            'branches' => $this->generateBranches($model->branches),
         ];
     }
 
@@ -35,6 +36,13 @@ class UserTransformer extends TransformerAbstract
     {
         return $items->map(function ($item) {
             return (new RoleTransformer())->transform($item);
+        })->toArray();
+    }
+
+    public function generateBranches($items)
+    {
+        return $items->map(function ($item) {
+            return (new BranchTransformer())->transform($item);
         })->toArray();
     }
 }

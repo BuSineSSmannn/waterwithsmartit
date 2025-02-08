@@ -29,14 +29,18 @@ class UserRequest extends FormRequest
                 'username' => ['required', 'string', 'min:4', 'max:32', 'unique:users'],
                 'password' => ['required', 'string', 'min:4', 'max:16'],
                 'roles' => ['required', 'array', 'min:1'],
-                'roles.*' => ['exists:roles,id']
+                'roles.*' => ['exists:roles,id'],
+                'branches' => ['required', 'array', 'min:1'],
+                'branches.*' => ['exists:branches,id']
             ],
             'users.update' => [
                 'name' => ['required', 'string', 'max:150'],
                 'username' => ['required', 'string', 'min:4', 'max:32', 'unique:users,username,' . $user->id],
                 'password' => ['sometimes', 'string', 'min:4', 'max:16'],
                 'roles' => ['required', 'array', 'min:1'],
-                'roles.*' => ['exists:roles,id']
+                'roles.*' => ['exists:roles,id'],
+                'branches' => ['required', 'array', 'min:1'],
+                'branches.*' => ['exists:branches,id']
             ],
             default => []
         };

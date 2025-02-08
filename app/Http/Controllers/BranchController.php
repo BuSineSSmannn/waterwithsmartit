@@ -22,6 +22,12 @@ class BranchController extends ApiController
     }
 
 
+    public function all(): JsonResponse
+    {
+        return $this->successResponse($this->service->getAll());
+    }
+
+
     public function show(Branch $branch): JsonResponse
     {
         return $this->successResponse($this->service->show($branch));

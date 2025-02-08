@@ -23,7 +23,6 @@ class BranchTransformer extends TransformerAbstract
             'created_at' => $model->created_at?->toISOString(),
             'updated_at' => $model->updated_at?->toISOString(),
             'deleted_at' => $model->deleted_at?->toISOString()
-
         ];
     }
 
