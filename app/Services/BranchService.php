@@ -3,6 +3,7 @@
 namespace App\Services;
 
 
+use App\Criteria\BranchIdCriteria;
 use App\Models\Branch;
 use App\Repositories\Branch\BranchRepository;
 use \App\Presenters\BranchPresenter;
@@ -24,7 +25,8 @@ class BranchService extends BaseService
 
     public function all(): array
     {
-        return $this->formatData($this->repository->setPresenter(BranchPresenter::class)->paginate(),'branches');
+
+        return $this->formatData($this->repository->pushCriteria(BranchIdCriteria::class)->setPresenter(BranchPresenter::class)->paginate(),'branches');
     }
 
 

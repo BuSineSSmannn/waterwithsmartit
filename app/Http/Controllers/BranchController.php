@@ -30,9 +30,12 @@ class BranchController extends ApiController
 
     public function show(Branch $branch): JsonResponse
     {
+        dd(auth('api')->user()->branches);
+        if(!in_array($branch->id, auth('api')->user()->branches->pluck('id')->toArray(), true)){
+            return  $this->errorResponse('Forbidden',403);
+        }
         return $this->successResponse($this->service->show($branch));
     }
-
 
     /**
      * @throws ValidatorException
@@ -51,11 +54,13 @@ class BranchController extends ApiController
      */
     public function update(BranchRequest $request, Branch $branch)
     {
+        if(!in_array($branch->id, auth('api')->user()->branches->pluck('id')->toArray(), true)){
+            return  $this->errorResponse('Forbidden',403);
+        }
 
         if($request->validated()){
             return $this->successResponse( $this->service->update($branch, $request->validated()));
         }
-
 
         return $this->errorResponse('Validation Failed', Response::HTTP_UNPROCESSABLE_ENTITY);
     }
@@ -63,6 +68,10 @@ class BranchController extends ApiController
 
     public function destroy(Branch $branch): JsonResponse
     {
+        if(!in_array($branch->id, auth('api')->user()->branches->pluck('id')->toArray(), true)){
+            return  $this->errorResponse('Forbidden',403);
+        }
+
         return $this->successResponse((array)$this->service->delete($branch),Response::HTTP_NO_CONTENT);
     }
 }
