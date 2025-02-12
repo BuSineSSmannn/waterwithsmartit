@@ -28,3 +28,5 @@ error.log
 *.py
 /python
 front
+
+.qodo
