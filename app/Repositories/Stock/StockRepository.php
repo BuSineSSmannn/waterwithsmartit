@@ -26,14 +26,6 @@ class StockRepository extends BaseRepository implements StockRepositoryInterface
     }
 
 
-    /**
-     * Boot up the repository, pushing criteria
-     * @throws RepositoryException
-     */
-    public function boot(): void
-    {
-        $this->pushCriteria(app(RequestCriteria::class));
-    }
 
 
     public function presenter(): string
@@ -43,8 +35,7 @@ class StockRepository extends BaseRepository implements StockRepositoryInterface
 
 
     protected $fieldSearchable = [
-        'name' => 'like',
-        'category.name' => 'like',
-        'id'
+        'id',
+        'product.name' => 'like',
     ];
 }

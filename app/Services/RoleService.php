@@ -23,9 +23,10 @@ class RoleService extends BaseService
     }
 
 
-    public function all()
+    public function all(): array
     {
-        return $this->formatData($this->repository->paginate(),'roles');
+        $data = request()->has('get_all') ? $this->repository->all() : $this->repository->paginate();
+        return $this->formatData($data,'roles');
     }
 
 
@@ -42,7 +43,7 @@ class RoleService extends BaseService
     /**
      * @throws ValidatorException
      */
-    public function create($data)
+    public function create($data): array
     {
 
         $data['slug'] = Str::slug($data['name']);
@@ -57,7 +58,10 @@ class RoleService extends BaseService
     }
 
 
-    public function update(Role $role,$data)
+    /**
+     * @throws ValidatorException
+     */
+    public function update(Role $role, $data): array
     {
         $data['slug'] = Str::slug($data['name']);
         $role_updated = $this->repository->skipPresenter()->update($data,$role->id);
@@ -66,18 +70,13 @@ class RoleService extends BaseService
         return $this->show($role_updated);
     }
 
-    public function delete(Role $user)
+    public function delete(Role $user): ?bool
     {
         return $user->delete();
     }
 
-    public function forceDelete(Role $user)
-    {
-        return $user->forceDelete();
-    }
 
-
-    protected function syncPermission(Role $role, array $permissions = [])
+    protected function syncPermission(Role $role, array $permissions = []): void
     {
       DB::table('permission_role')->where('role_id', $role->id)->delete();
 

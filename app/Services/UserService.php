@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Models\User;
 use App\Repositories\User\UserRepository;
 use App\Transformers\UserTransformer;
+use Exception;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Log\Logger;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +23,7 @@ class UserService extends BaseService
     }
 
 
-    public function all()
+    public function all(): array
     {
         return $this->formatData($this->repository->paginate(),'users');
     }
@@ -42,40 +43,48 @@ class UserService extends BaseService
      */
     public function create($data): array
     {
-        $user =  $this->repository->skipPresenter()->create($data);
+        try{
+            DB::beginTransaction();
 
-        $this->syncRoles($user,$data['roles']);
+            $user =  $this->repository->skipPresenter()->create($data);
 
-       return $this->show($user);
+            $user->roles()->attach($data['roles']);
+
+            $user->branches()->attach($data['branches']);
+
+            DB::commit();
+
+            return $this->show($user);
+        }catch (Exception $e){
+            DB::rollBack();
+            dd($e->getMessage());
+        }
     }
 
 
     public function update(User $user,$data)
     {
-        $user->update($data);
+       try{
+           DB::beginTransaction();
 
-        $this->syncRoles($user,$data['roles']);
+           $user->update($data);
 
+           $user->roles()->sync($data['roles']);
 
-        return $this->show($user);
+           $user->branches()->sync($data['branches']);
+
+           DB::commit();
+
+           return $this->show($user);
+       }catch (Exception $e){
+           DB::rollBack();
+           dd($e->getMessage());
+       }
     }
 
-    public function delete(User $user)
+    public function delete(User $user): ?bool
     {
         return $user->delete();
     }
 
-    public function forceDelete(User $user)
-    {
-        return $user->forceDelete();
-    }
-
-    protected function syncRoles(User $user,array $roles)
-    {
-        DB::table('role_user')->where('user_id', $user->id)->delete();
-
-        foreach ($roles as $role) {
-            $user->roles()->attach($role);
-        }
-    }
 }

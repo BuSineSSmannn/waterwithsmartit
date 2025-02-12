@@ -62,7 +62,7 @@ class RoleController extends ApiController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Role $role)
+    public function destroy(Role $role): JsonResponse
     {
         $this->service->delete($role);
 

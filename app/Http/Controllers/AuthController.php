@@ -44,6 +44,8 @@ class AuthController extends ApiController
         return $this->jsonResponse([
             'ok' => true,
             'user' => $user->only(['id','name','username']),
+            'roles' => $user->roles->pluck('name','id')->toArray(),
+            'branches' => $user->branches->pluck('name','id')->toArray(),
             'access_token' => $token,
             'token_type' => 'Bearer',
             'expires_at' => $expiresAt

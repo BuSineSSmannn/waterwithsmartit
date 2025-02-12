@@ -76,4 +76,9 @@ class User extends Authenticatable
     {
         return $this->getAllPermissions()->pluck('name')->toArray();
     }
+
+    public function branches()
+    {
+        return $this->belongsToMany(Branch::class,'user_branches','user_id','branch_id');
+    }
 }

@@ -18,7 +18,7 @@ class StockController extends ApiController
        return $this->successResponse($this->service->all());
     }
 
-    public function show(Stock $stock): JsonResponse
+    public function show( $stock): JsonResponse
     {
         return $this->successResponse($this->service->show($stock));
     }
