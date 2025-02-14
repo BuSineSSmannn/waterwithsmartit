@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repositories\StockInvoice;
+namespace App\Repositories\WarehouseInvoice;
 
-use App\Models\StockInvoice;
+use App\Models\WarehouseInvoice;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
@@ -12,7 +12,7 @@ use Prettus\Repository\Exceptions\RepositoryException;
  *
  * @package namespace App\Repositories;
  */
-class StockInvoiceRepository extends BaseRepository implements StockInvoiceRepositoryInterface
+class WarehouseInvoiceRepository extends BaseRepository implements WarehouseInvoiceRepositoryInterface
 {
     /**
      * Specify Model class name
@@ -21,7 +21,7 @@ class StockInvoiceRepository extends BaseRepository implements StockInvoiceRepos
      */
     public function model(): string
     {
-        return StockInvoice::class;
+        return WarehouseInvoice::class;
     }
 
 

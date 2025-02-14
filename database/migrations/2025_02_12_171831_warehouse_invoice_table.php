@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('warehouse_invoices', static function (Blueprint $table) {
             $table->id();
-            $table->foreignId('warehouse_id')->constrained('warehouses')->onDelete('restrict');
+            $table->foreignId('branch_id')->constrained('branches')->onDelete('restrict');
             $table->foreignId('user_id')->constrained('users')->onDelete('restrict');
             $table->decimal('total_amount',15)->default(0.00);
             $table->string('comment')->nullable();

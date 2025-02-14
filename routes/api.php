@@ -12,6 +12,7 @@ use App\Http\Controllers\StockController;
 use App\Http\Controllers\StockInvoiceController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WarehouseInvoiceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -128,6 +129,21 @@ Route::group(['middleware' => ['checkAuth']],static function () {
         Route::post('/','store')->name('store');
         Route::match(['put','patch'],'/{branch}','update')->name('update');
         Route::delete('/{branch}','destroy')->name('destroy');
+    });
+
+
+
+    Route::group([
+        'prefix' => 'warehouse_invoices',
+        'as' => 'warehouse_invoices.',
+        'controller' => WarehouseInvoiceController::class
+    ],static function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{warehouseInvoice}', 'show')->name('show');
+        Route::post('/','store')->name('store');
+        Route::post('/{warehouseInvoice}/reject','reject')->name('reject');
+        Route::post('/{warehouseInvoice}/confirm','confirm')->name('confirm');
+        Route::match(['put','patch'],'/{warehouseInvoice}','update')->name('update');
     });
 
 });

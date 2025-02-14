@@ -26,8 +26,6 @@ class StockRepository extends BaseRepository implements StockRepositoryInterface
     }
 
 
-
-
     public function presenter(): string
     {
         return StockPresenter::class;
