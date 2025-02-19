@@ -25,7 +25,7 @@ class UserService extends BaseService
 
     public function all(): array
     {
-        return $this->formatData($this->repository->paginate(),'users');
+        return $this->formatData($this->repository->with(['roles','branches','roles.permissions','branches.users'])->paginate(),'users');
     }
 
 

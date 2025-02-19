@@ -9,6 +9,7 @@ use App\Services\WarehouseInvoiceService;
 use RuntimeException;
 use Illuminate\Http\JsonResponse;
 use Prettus\Validator\Exceptions\ValidatorException;
+use Throwable;
 
 class WarehouseInvoiceController extends ApiController
 {
@@ -43,6 +44,9 @@ class WarehouseInvoiceController extends ApiController
         return $this->successResponse($this->service->reject($warehouseInvoice));
     }
 
+    /**
+     * @throws Throwable
+     */
     public function confirm(WarehouseInvoice $warehouseInvoice): JsonResponse
     {
         if($warehouseInvoice->status !== InvoiceEnum::DRAFT){

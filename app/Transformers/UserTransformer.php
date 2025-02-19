@@ -22,6 +22,8 @@ class UserTransformer extends TransformerAbstract
      */
     public function transform(User $model): array
     {
+
+
         return [
             'id'         => (int) $model->id,
             'username'  => $model->username,

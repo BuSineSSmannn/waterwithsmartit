@@ -21,7 +21,8 @@ Route::get('/user', static function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::post('/auth/login', [AuthController::class,'login'])->name('auth.login');
+Route::post('/auth/login', [AuthController::class,'login'])->name('auth.login')->middleware('throttle:login');
+
 
 
 Route::group(['middleware' => ['checkAuth']],static function () {

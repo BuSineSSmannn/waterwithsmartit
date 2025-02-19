@@ -7,8 +7,10 @@ use App\Enums\InvoiceEnum;
 use App\Enums\MovementProductType;
 use App\Models\Stock;
 use App\Models\StockMovement;
+use App\Models\Warehouse;
 use App\Models\WarehouseInvoice;
 use App\Models\WarehouseInvoiceItem;
+use App\Models\WarehouseMovement;
 use App\Presenters\WarehouseInvoicePresenter;
 use App\Repositories\WarehouseInvoice\WarehouseInvoiceRepository;
 use App\Transformers\WarehouseInvoice\WarehouseInvoiceTransformer;
@@ -122,26 +124,58 @@ class WarehouseInvoiceService extends BaseService
 
 
             foreach ($invoice->items as $item) {
-                $stock = Stock::createOrFirst([
+                $stock = Stock::where([
                     'product_id' => $item->product_id,
                     'arrival_price' => $item->arrival_price,
                     'price' => $item->price,
                     'date_expire' => Carbon::parse($item->date_expire)->endOfDay()->format('Y-m-d H:i:s'),
-                ]);
+                ])->first();
+
+                $last_count = ($stock->quantity - $item->quantity);
+
+               throw_if($last_count < 0, static function (){
+                    return new RuntimeException('Не достаточно к-во');
+               });
 
                 $stock->update([
-                    'quantity' => $stock->quantity + $item->quantity
+                    'quantity' => $last_count
                 ]);
 
                 StockMovement::create([
                     'stock_id' => $stock->id,
                     'invoice_id' => $invoice->id,
                     'user_id' => auth('api')->user()?->id,
-                    'type' => MovementProductType::ARRIVAL,
+                    'type' => MovementProductType::DEPARTURE,
                     'purchase_price' => $item->arrival_price,
                     'quantity' => $item->quantity,
                     'date_expire' => $item->date_expire,
                     'description' => "Расходная накладная на филиал No $invoice->id - {$invoice->branch->name}"
+                ]);
+
+
+                $warehouse = Warehouse::firstOrCreate([
+                    'product_id' => $item->product_id,
+                    'arrival_price' => $item->arrival_price,
+                    'price' => $item->price,
+                    'date_expire' => Carbon::parse($item->date_expire)->endOfDay()->format('Y-m-d H:i:s'),
+                    'branch_id' => $invoice->branch_id
+                ]);
+
+                $warehouse->update([
+                    'quantity' => $warehouse->quantity + $item->quantity
+                ]);
+
+
+                WarehouseMovement::create([
+                    'warehouse_id' => $warehouse->id,
+                    'branch_id' => $warehouse->branch->id,
+                    'invoice_id' => $invoice->id,
+                    'user_id' => auth('api')->user()?->id,
+                    'type' => MovementProductType::ARRIVAL,
+                    'purchase_price' => $item->arrival_price,
+                    'quantity' => $item->quantity,
+                    'date_expire' => $item->date_expire,
+                    'description' => "Приходная накладная на филиал No $invoice->id - {$invoice->branch->name}"
                 ]);
             }
 
